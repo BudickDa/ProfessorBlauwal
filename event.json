@@ -1,44 +1,32 @@
 {
   "session": {
-    "new": false,
-    "sessionId": "amzn1.echo-api.session.[unique-value-here]",
+    "sessionId": "SessionId.6fe7bec1-2fef-457a-af35-cd26ccc2ad91",
+    "application": {
+      "applicationId": "amzn1.ask.skill.57d06fc7-f036-4f34-88c2-8ca9f86a78cb"
+    },
     "attributes": {},
     "user": {
-      "userId": "amzn1.ask.account.[unique-value-here]"
+      "userId": "amzn1.ask.account.AFL2WZKX7J25IUDTPJAHP5AOTWDXWZ7CZXT3AT4TWEQCN2VUOCJJPTIRZGAAN3DEKMX4XLL5UJLU7QGZXUPJ5I4O565WJXORW6HYQUK5G5Z6R2P4QBK7CT4QM3CVL6GKVCGGAIPYG2G6QXBLERWT72OWXDLYJ647FCY3V5YPPED2TTKIJMMZK3MIKRXZCXBFH2JN6GMYOYP5V6Q"
     },
-    "application": {
-      "applicationId": "amzn1.ask.skill.[unique-value-here]"
-    }
+    "new": true
   },
-  "version": "1.0",
   "request": {
-    "locale": "en-US",
-    "timestamp": "2016-10-27T21:06:28Z",
     "type": "IntentRequest",
-    "requestId": "amzn1.echo-api.request.[unique-value-here]",
+    "requestId": "EdwRequestId.6125aee5-5a0f-4bfa-be25-c4cb45be130b",
+    "locale": "de-DE",
+    "timestamp": "2017-01-13T16:07:22Z",
     "intent": {
+      "name": "AskQuestionDefineIntent",
       "slots": {
-        "whale": "Blauwal"
-      },
-      "name": "AskQuestionDefineIntent"
-    }
-  },
-  "context": {
-    "AudioPlayer": {
-      "playerActivity": "IDLE"
-    },
-    "System": {
-      "device": {
-        "supportedInterfaces": {
-          "AudioPlayer": {}
+        "whale": {
+          "name": "whale",
+          "value": "Glattwale"
+        },
+        "family": {
+          "name": "family"
         }
-      },
-      "application": {
-        "applicationId": "amzn1.ask.skill.[unique-value-here]"
-      },
-      "user": {
-        "userId": "amzn1.ask.account.[unique-value-here]"
       }
     }
-  }
+  },
+  "version": "1.0"
 }
