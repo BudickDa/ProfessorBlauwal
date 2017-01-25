@@ -22,18 +22,21 @@ function dontKnow() {
 }
 
 const handlers = {
-  'LaunchRequest': function() {
-    this.emit(':ask', 'Hallo, ich bin Professor Blauwal. Wie kann ich Dir helfen?');
-  },
-  'AskQuestionDefineIntent': function() {
-    const slots = this.event.request.intent.slots;
-    const family = slots.family.value;
-    const whale = slots.whale.value;
-    let item;
-    if (family) {
-      item = family;
-    } else if(whale) {
-      item = whale;
+    'LaunchRequest': function() {
+      this.emit(':ask', 'Hallo, ich bin Professor Blauwal. Wie kann ich Dir helfen?');
+    },
+    'AskQuestionDefineIntent': function() {
+      const slots = this.event.request.intent.slots;
+      const family = slots.family.value;
+      const whale = slots.whale.value;
+      let item;
+      if (family) {
+        item = family;
+      } else if (whale) {
+        item = whale;
+      } else {
+        this.emit(':tell', 'Wie bitte?');
+      }
       wiki.page(item)
         .then(page => page.summary())
         .then(content => {
@@ -42,101 +45,109 @@ const handlers = {
         ).catch(err => {
         this.emit(':tell', 'Das weiß ich leider nicht.');
       });
-    } else{
-      this.emit(':ask', 'Wie bitte?');
+    },
+    'AskQuestionSpeedIntent': function() {
+      const whale = this.event.request.intent.slots.whale.value;
+      if (!whale) {
+        this.emit(':ask', 'Wie bitte?');
+        return;
+      }
+      const result = find(whale);
+      if (result && result.speed !== '') {
+        this.emit(':tell', result.speed);
+      } else {
+        this.emit(':tell', dontKnow());
+      }
     }
-  },
-  'AskQuestionSpeedIntent': function() {
-    const whale = this.event.request.intent.slots.whale.value;
-    if(!whale){
-      this.emit(':ask', 'Wie bitte?');
-      return;
+    ,
+    'AskQuestionWeightIntent': function() {
+      const whale = this.event.request.intent.slots.whale.value;
+      if (!whale) {
+        this.emit(':ask', 'Wie bitte?');
+        return;
+      }
+      const result = find(whale);
+      if (result && result.weight !== '') {
+        this.emit(':tell', result.weight);
+      } else {
+        this.emit(':tell', dontKnow());
+      }
     }
-    const result = find(whale);
-    if (result && result.speed !== '') {
-      this.emit(':tell', result.speed);
-    } else {
-      this.emit(':tell', dontKnow());
+    ,
+    'AskQuestionPregnancyIntent': function() {
+      const whale = this.event.request.intent.slots.whale.value;
+      if (!whale) {
+        this.emit(':ask', 'Wie bitte?');
+        return;
+      }
+      const result = find(whale);
+      if (result && result.pregnancy !== '') {
+        this.emit(':tell', result.pregnancy);
+      } else {
+        this.emit(':tell', dontKnow());
+      }
     }
-  },
-  'AskQuestionWeightIntent': function() {
-    const whale = this.event.request.intent.slots.whale.value;
-    if(!whale){
-      this.emit(':ask', 'Wie bitte?');
-      return;
+    ,
+    'AskQuestionMaxAgeIntent': function() {
+      const whale = this.event.request.intent.slots.whale.value;
+      if (!whale) {
+        this.emit(':ask', 'Wie bitte?');
+        return;
+      }
+      const result = find(whale);
+      if (result && result.age !== '') {
+        this.emit(':tell', result.age);
+      } else {
+        this.emit(':tell', 'Lange... Jedenfalls so lange er sich von Japan, Norwegen, Island und den Färöer-Inseln fernhält.');
+      }
     }
-    const result = find(whale);
-    if (result && result.weight !== '') {
-      this.emit(':tell', result.weight);
-    } else {
-      this.emit(':tell', dontKnow());
+    ,
+    'AskQuestionMaxLengthIntent': function() {
+      const whale = this.event.request.intent.slots.whale.value;
+      if (!whale) {
+        this.emit(':ask', 'Wie bitte?');
+        return;
+      }
+      const result = find(whale);
+      if (result && result.length !== '') {
+        this.emit(':tell', result.length);
+      } else {
+        this.emit(':tell', 'Lange... Jedenfalls so lange er sich von Japan, Norwegen, Island und den Färöer-Inseln fernhält.');
+      }
     }
-  },
-  'AskQuestionPregnancyIntent': function() {
-    const whale = this.event.request.intent.slots.whale.value;
-    if(!whale){
-      this.emit(':ask', 'Wie bitte?');
-      return;
+    ,
+    'AskQuestionMaxDiveIntent': function() {
+      const whale = this.event.request.intent.slots.whale.value;
+      if (!whale) {
+        this.emit(':ask', 'Wie bitte?');
+        return;
+      }
+      const result = find(whale);
+      if (result && result.dive !== '') {
+        this.emit(':tell', result.dive);
+      } else {
+        this.emit(':tell', 'Lange... Jedenfalls so lange er sich von Japan, Norwegen, Island und den Färöer-Inseln fernhält.');
+      }
     }
-    const result = find(whale);
-    if (result && result.pregnancy !== '') {
-      this.emit(':tell', result.pregnancy);
-    } else {
-      this.emit(':tell', dontKnow());
+    ,
+    'AMAZON.HelpIntent': function() {
+      this.emit(':ask', 'Ich kann dir Fakten zu Walen aufzählen, was möchtest Du wissen?');
     }
-  },
-  'AskQuestionMaxAgeIntent': function() {
-    const whale = this.event.request.intent.slots.whale.value;
-    if(!whale){
-      this.emit(':ask', 'Wie bitte?');
-      return;
+    ,
+    'AMAZON.CancelIntent': function() {
+      this.emit(':tell', 'Tschö!');
     }
-    const result = find(whale);
-    if (result && result.age !== '') {
-      this.emit(':tell', result.age);
-    } else {
-      this.emit(':tell', 'Lange... Jedenfalls so lange er sich von Japan, Norwegen, Island und den Färöer-Inseln fernhält.');
+    ,
+    'AMAZON.StopIntent': function() {
+      this.emit(':tell', 'Frohes schwimmen!');
     }
-  },
-  'AskQuestionMaxLengthIntent': function() {
-    const whale = this.event.request.intent.slots.whale.value;
-    if(!whale){
-      this.emit(':ask', 'Wie bitte?');
-      return;
+    ,
+    'SessionEndedRequest': function() {
+      this.emit(':tell', 'Ich schwimme dann mal weiter.');
     }
-    const result = find(whale);
-    if (result && result.length !== '') {
-      this.emit(':tell', result.length);
-    } else {
-      this.emit(':tell', 'Lange... Jedenfalls so lange er sich von Japan, Norwegen, Island und den Färöer-Inseln fernhält.');
-    }
-  },
-  'AskQuestionMaxDiveIntent': function() {
-    const whale = this.event.request.intent.slots.whale.value;
-    if(!whale){
-      this.emit(':ask', 'Wie bitte?');
-      return;
-    }
-    const result = find(whale);
-    if (result && result.dive !== '') {
-      this.emit(':tell', result.dive);
-    } else {
-      this.emit(':tell', 'Lange... Jedenfalls so lange er sich von Japan, Norwegen, Island und den Färöer-Inseln fernhält.');
-    }
-  },
-  'AMAZON.HelpIntent': function() {
-    this.emit(':ask', 'Ich kann dir Fakten zu Walen aufzählen, was möchtest Du wissen?');
-  },
-  'AMAZON.CancelIntent': function() {
-    this.emit(':tell', 'Tschö!');
-  },
-  'AMAZON.StopIntent': function() {
-    this.emit(':tell', 'Frohes schwimmen!');
-  },
-  'SessionEndedRequest': function() {
-    this.emit(':tell', 'Ich schwimme dann mal weiter.');
-  },
-};
+    ,
+  }
+  ;
 
 exports.handler = (event, context) => {
   const alexa = Alexa.handler(event, context);

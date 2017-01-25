@@ -16,14 +16,14 @@
     "locale": "de-DE",
     "timestamp": "2017-01-09T15:03:56Z",
     "intent": {
-      "name": "AskQuestionMaxDiveIntent",
+      "name": "AskQuestionDefineIntent",
       "slots": {
         "whale": {
-          "name": "whale",
-          "value": "Buckelwal"
+          "name": "whale"
         },
         "family": {
-          "name": "family"
+          "name": "family",
+          "value": "Gründelwale"
         }
       }
     }
